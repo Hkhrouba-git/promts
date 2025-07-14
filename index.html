@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>منصة تحسين الـ Prompts</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .gradient-bg {
+      background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
+    }
+    .prompt-box {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .btn {
+      transition: all 0.2s ease;
+      transform: translateY(0);
+      touch-action: manipulation;
+    }
+    .btn:active {
+      transform: translateY(1px);
+    }
+    textarea {
+      -webkit-user-select: auto;
+      user-select: auto;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body dir="rtl">
+  <div class="min-h-screen flex items-center justify-center p-2 sm:p-4">
+    <div class="w-full max-w-md mx-auto bg-white prompt-box rounded-xl overflow-hidden">
+      <!-- Header -->
+      <div class="gradient-bg p-4 text-center">
+        <h1 class="text-xl font-bold text-white animate__animated animate__fadeInDown">✨ منصة تحسين Prompts ✨</h1>
+        <p class="text-blue-100 text-sm mt-1">حسّن أوامرك للذكاء الاصطناعي</p>
+      </div>
+      
+      <!-- Main Content -->
+      <div class="p-4 space-y-4">
+        <!-- Input Section -->
+        <div>
+          <label for="userPrompt" class="block text-base font-medium text-gray-700 mb-1">أدخل الـ Prompt:</label>
+          <textarea id="userPrompt" rows="5" placeholder="مثال: اشرح الذكاء الاصطناعي باختصار..."
+            class="w-full p-3 text-sm border-2 border-gray-200 rounded-lg focus:outline-none focus:border-indigo-500 transition duration-200 resize-none leading-relaxed text-gray-700 no-scrollbar"></textarea>
+        </div>
+
+        <!-- Buttons -->
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="handlePrompt()"
+            class="btn gradient-bg hover:bg-indigo-700 text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+            تحسين
+          </button>
+          <button onclick="copyOutput()"
+            class="btn bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+              <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+            </svg>
+            نسخ
+          </button>
+          <button onclick="clearFields()"
+            class="btn bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-1 col-span-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            مسح الكل
+          </button>
+        </div>
+
+        <!-- Output Section -->
+        <div class="bg-gray-50 border-2 border-gray-200 rounded-lg p-3 min-h-[120px]">
+          <div class="flex items-center gap-2 text-gray-700 mb-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            <h2 class="font-semibold text-base">النتيجة:</h2>
+          </div>
+          <div id="output" class="whitespace-pre-wrap p-2 bg-white rounded-md border border-gray-200 text-sm max-h-40 overflow-y-auto no-scrollbar">
+            <p class="text-gray-500 italic" id="placeholder">ستظهر النتيجة هنا...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="bg-gray-50 px-4 py-2 text-center text-xs text-gray-500">
+        هيثم خروبة @2025
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // تحسين الأداء للهواتف
+    document.addEventListener('DOMContentLoaded', function() {
+      // منع التكبير/التصغير بالدبل تاب
+      let lastTouchEnd = 0;
+      document.addEventListener('touchend', function(event) {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+          event.preventDefault();
+        }
+        lastTouchEnd = now;
+      }, false);
+      
+      // تحسين أداء textarea على الهواتف
+      const textarea = document.getElementById('userPrompt');
+      textarea.addEventListener('focus', function() {
+        window.scrollTo(0, textarea.offsetTop - 20);
+      });
+    });
+
+    async function handlePrompt() {
+      const prompt = document.getElementById("userPrompt").value;
+      const output = document.getElementById("output");
+      const placeholder = document.getElementById("placeholder");
+
+      if (!prompt.trim()) {
+        output.innerHTML = '<p class="text-red-500 text-sm">⚠️ يرجى إدخال نص أولاً</p>';
+        return;
+      }
+
+      placeholder.style.display = 'none';
+      output.innerHTML = '<div class="flex justify-center items-center py-2"><div class="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-indigo-500"></div><span class="mr-1 text-gray-600 text-sm">جاري التحليل...</span></div>';
+
+      // محاكاة لاستدعاء API
+      setTimeout(() => {
+        const improvedPrompt = `
+          <div class="space-y-2">
+            <p class="font-medium text-gray-700 text-sm">✅ النسخة المحسنة:</p>
+            <div class="bg-indigo-50 p-2 rounded-lg border-r-2 border-indigo-400 text-sm">
+              <p class="text-gray-800">"${prompt.trim()}"</p>
+              <p class="mt-1 text-gray-600 text-xs">• استخدم لغة واضحة وسلسة</p>
+              <p class="text-gray-600 text-xs">• ركز على النقاط الرئيسية</p>
+            </div>
+          </div>
+        `;
+        output.innerHTML = improvedPrompt;
+        
+        // التمرير إلى منطقة النتائج
+        output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 1500);
+    }
+
+    function copyOutput() {
+      const output = document.getElementById("output");
+      const placeholder = document.getElementById("placeholder");
+      
+      if (placeholder.style.display === 'none' && output.textContent.trim()) {
+        navigator.clipboard.writeText(output.textContent.replace(/•/g, '-'));
+        
+        // إشعار على الهاتف
+        const notification = document.createElement('div');
+        notification.className = 'fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg animate__animated animate__fadeInUp text-sm';
+        notification.textContent = 'تم النسخ بنجاح!';
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.classList.remove('animate__fadeInUp');
+          notification.classList.add('animate__fadeOutDown');
+          setTimeout(() => notification.remove(), 500);
+        }, 2000);
+        
+        // اهتزاز لتأكيد النسخ (يدعمه معظم المتصفحات)
+        if (navigator.vibrate) {
+          navigator.vibrate(50);
+        }
+      }
+    }
+
+    function clearFields() {
+      document.getElementById("userPrompt").value = "";
+      const output = document.getElementById("output");
+      output.innerHTML = '<p class="text-gray-500 italic" id="placeholder">ستظهر النتيجة هنا...</p>';
+      document.getElementById("placeholder").style.display = 'block';
+    }
+  </script>
+</body>
+</html>
